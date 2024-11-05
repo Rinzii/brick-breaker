@@ -14,19 +14,30 @@
 
 namespace brk {
 
-	Game* loadedGame = nullptr;
+	namespace
+	{
+		// TODO: Remove usage of singleton pattern.
+		Game* loadedGame = nullptr; // NOLINT - Singleton pattern will always be global and can't be const.
+		bk::Logger constexpr s_logger("Game");
+	}
 
-	bool Game::init() {
+	bool Game::init(GameConfig config)
+	{
 		assert(loadedGame == nullptr);
 		loadedGame = this;
 
-		SDL_Init(SDL_INIT_VIDEO);
+		m_config = config;
+
+		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
+			BK_LOG_ERROR(s_logger, "SDL_Init failed: {}", SDL_GetError());
+			return false;
+		}
 
 		auto window_flags = SDL_WINDOW_VULKAN;
 		SDL_Window* window = SDL_CreateWindow(
-			config.startupWindowTitle.data(),
-			static_cast<int>(config.startupWindowSize.width),
-			static_cast<int>(config.startupWindowSize.height),
+			m_config.windowConfig.startupWindowTitle.data(),
+			static_cast<int>(m_config.windowConfig.startupWindowSize.width),
+			static_cast<int>(m_config.windowConfig.startupWindowSize.height),
 			window_flags
 			);
 
@@ -47,23 +58,8 @@ namespace brk {
 	}
 
 	void Game::run() {
-		bool ready_to_quit = false;
-		SDL_Event e;
-		while(!ready_to_quit) {
-			while(SDL_PollEvent(&e)) {
-				if(e.type == SDL_EVENT_QUIT) {
-					ready_to_quit = true;
-				}
-
-				if (e.type == SDL_EVENT_WINDOW_MINIMIZED) {
-					m_stop_rendering = true;
-				}
-
-				if (e.type == SDL_EVENT_WINDOW_RESTORED) {
-					m_stop_rendering = false;
-				}
-
-			}
+		while(!m_shouldGameQuit) {
+			processSDLEvents();
 			if (m_stop_rendering) {
 				// Slow down the loop if we're not rendering. No need for unnecessary CPU usage.
 				std::this_thread::sleep_for(std::chrono::milliseconds(100)); // NOLINT(*-magic-numbers)
@@ -77,9 +73,33 @@ namespace brk {
 	}
 
 
-
 	void Game::draw() {
 		// nothing yet
+	}
+
+	void Game::processSDLEvents()
+	{
+		// TODO: Abstract this to a wrapper at some point.
+		SDL_Event e;
+		while(SDL_PollEvent(&e)) {
+			if(e.type == SDL_EVENT_QUIT) {
+				m_shouldGameQuit = true;
+			}
+
+			if (e.type == SDL_EVENT_WINDOW_MINIMIZED) {
+				m_stop_rendering = true;
+			}
+
+			if (e.type == SDL_EVENT_WINDOW_RESTORED) {
+				m_stop_rendering = false;
+			}
+
+		}
+	}
+
+	void Game::processInput()
+	{
+
 	}
 
 
