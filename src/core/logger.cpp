@@ -15,7 +15,7 @@
 #endif
 
 
-namespace bk::logger
+namespace brk::logger
 {
     ThreadId Context::getThreadId()
     {
@@ -50,9 +50,9 @@ namespace bk::logger
             .line      = currentLine,
         };
     }
-} // namespace bk::logger
+} // namespace brk::logger
 
-namespace bk::logger
+namespace brk::logger
 {
     namespace
     {
@@ -334,9 +334,9 @@ namespace bk::logger
         if (s_instance == nullptr) { return; }
         s_instance->print(message, context);
     }
-} // namespace bk::logger
+} // namespace brk::logger
 
-namespace bk
+namespace brk
 {
     void logger::print(logger::Level level, std::string_view category, std::string_view message)
     {

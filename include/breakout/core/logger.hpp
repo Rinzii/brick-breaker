@@ -9,7 +9,7 @@
 
 #include "breakout/stl/fixed_string.hpp"
 
-namespace bk::logger {
+namespace brk::logger {
     /**
      * \brief Log Level.
      */
@@ -229,7 +229,7 @@ namespace bk::logger {
                int curLine, std::string_view message);
 } // namespace breakout::logger
 
-namespace bk {
+namespace brk {
     class Logger {
     public:
         using Level = logger::Level;
@@ -306,14 +306,14 @@ namespace bk {
 } // namespace bk
 
 // NOLINTBEGIN
-#define INTERNAL_BK_LOG(logger, level, message, ...)                                                                                                          \
+#define INTERNAL_BRK_LOG(logger, level, message, ...)                                                                                                          \
 	do {                                                                                                                                                       \
 		logger.verbose_##level(__func__, __FILE__, __LINE__, message, __VA_ARGS__);                                                                          \
 	} while ((void)0, 0)
 
-#define BK_LOG(logger, message, ...)		INTERNAL_BK_LOG(logger, log, message, __VA_ARGS__)
-#define BK_LOG_ERROR(logger, message, ...) INTERNAL_BK_LOG(logger, error, message, __VA_ARGS__)
-#define BK_LOG_WARN(logger, message, ...)	INTERNAL_BK_LOG(logger, warn, message, __VA_ARGS__)
-#define BK_LOG_INFO(logger, message, ...)	INTERNAL_BK_LOG(logger, info, message, __VA_ARGS__)
-#define BK_LOG_DEBUG(logger, message, ...) INTERNAL_BK_LOG(logger, debug, message, __VA_ARGS__)
+#define BRK_LOG(logger, message, ...)		INTERNAL_BRK_LOG(logger, log, message, __VA_ARGS__)
+#define BRK_LOG_ERROR(logger, message, ...) INTERNAL_BRK_LOG(logger, error, message, __VA_ARGS__)
+#define BRK_LOG_WARN(logger, message, ...)	INTERNAL_BRK_LOG(logger, warn, message, __VA_ARGS__)
+#define BRK_LOG_INFO(logger, message, ...)	INTERNAL_BRK_LOG(logger, info, message, __VA_ARGS__)
+#define BRK_LOG_DEBUG(logger, message, ...) INTERNAL_BRK_LOG(logger, debug, message, __VA_ARGS__)
 // NOLINTEND
