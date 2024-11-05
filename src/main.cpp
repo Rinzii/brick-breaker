@@ -9,12 +9,12 @@ static constexpr auto logFile{"brick_break.log"};
 int main(int argc, char* argv[])
 {
 
-    const auto config = bk::logger::Config{};
+    const auto config = brk::logger::Config{};
 
     // Required to initialize the logger for the application. This must also stay outside any try/catch blocks.
-    auto logger = bk::logger::Instance{logFile, config};
+    auto logger = brk::logger::Instance{logFile, config};
 
-    BK_LOG(bk::logger::general, "Brick break game starting up!");
+    BRK_LOG(brk::logger::general, "Brick break game starting up!");
 
     brk::Game game;
 

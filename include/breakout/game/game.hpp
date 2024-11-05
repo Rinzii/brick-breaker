@@ -2,6 +2,7 @@
 
 
 #include <breakout/gpu/vk_types.hpp>
+#include <breakout/app/input.hpp>
 
 struct SDL_Window;
 
@@ -16,23 +17,29 @@ namespace brk
 			VkExtent2D startupWindowSize{default_window_size};
 			std::string_view startupWindowTitle{"Breakout"};
 			bool enableResizableWindow{false}; // Keep this false until window resizing works
+
+			WindowConfig() = default;
 		};
 
 		struct GpuConfig
 		{
 			bool enableValidationLayers{false};
+
+			GpuConfig() = default;
 		};
 
 		struct GameConfig
 		{
-			WindowConfig windowConfig{};
-			GpuConfig gpuConfig{};
+			WindowConfig windowConfig;
+			GpuConfig gpuConfig;
+
+			GameConfig() : windowConfig{}, gpuConfig{} {}
 		};
 
 		static Game & Get();
 
 		//initializes everything in the engine
-		bool init(GameConfig config = GameConfig{});
+		bool init(GameConfig config = GameConfig());
 
 		//shuts down the engine
 		void cleanup();
@@ -60,6 +67,8 @@ namespace brk
 		};
 
 		std::unique_ptr<SDL_Window, Deleter> m_window;
+
+		InputManager m_inputDispatcher;
 
 	};
 }

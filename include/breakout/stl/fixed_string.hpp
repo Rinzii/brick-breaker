@@ -4,7 +4,7 @@
 #include <array>
 #include <string_view>
 
-namespace bk
+namespace brk
 {
     inline constexpr std::size_t fixed_string_capacity_v{64};
 
