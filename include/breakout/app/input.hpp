@@ -10,7 +10,7 @@ namespace brk
 		enum class Type : uint8_t { KeyDown, KeyUp, MouseButtonDown, MouseButtonUp, MouseMotion } type;
 		int keycode = 0;
 		int button = 0;
-		float x = 0
+		float x = 0;
 		float y = 0;
 
 		// Default constructor
