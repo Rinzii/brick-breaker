@@ -14,16 +14,6 @@ add_executable(${PROJECT_NAME})
 add_subdirectory(include/breakout)
 add_subdirectory(src)
 
-# TODO: Setup a better cmake structure for adding source files
-#target_sources(${PROJECT_NAME}
-#        PUBLIC
-#        ${breakout_headers}
-#
-#        PRIVATE
-#        ${breakout_sources}
-#)
-
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL MSVC OR CMAKE_CXX_COMPILER_ID STREQUAL Clang)
     # Make MSVC shut up about not actually deprecated functions
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)

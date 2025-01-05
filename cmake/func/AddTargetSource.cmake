@@ -1,11 +1,18 @@
 # Helper function to add headers to the global source list
 function(brk_add_headers)
-    # Append all the passed arguments (headers) to the target's sources
-    target_sources(${PROJECT_NAME} PUBLIC "${ARGV}")
+  set(SOURCE_FILES "")
+  foreach(header IN LISTS ARGV)
+    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
+  endforeach()
+  target_sources(${PROJECT_NAME} PUBLIC ${SOURCE_FILES})
 endfunction()
 
-# Helper function to add headers to the global source list
+# Helper function to add sources to the global source list
 function(brk_add_sources)
-    # Append all the passed arguments (headers) to the target's sources
-    target_sources(${PROJECT_NAME} PRIVATE "${ARGV}")
+  set(SOURCE_FILES "")
+  foreach(source IN LISTS ARGV)
+    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/${source}")
+  endforeach()
+  target_sources(${PROJECT_NAME} PRIVATE ${SOURCE_FILES})
 endfunction()
+
